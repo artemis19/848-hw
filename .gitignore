@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.pickle
+models/*.pickle
+train.pred
+dev.pred
+env/
