@@ -6,3 +6,5 @@ models/*.pickle
 train.pred
 dev.pred
 env/
+outputs/
+data/qanta.dev.json

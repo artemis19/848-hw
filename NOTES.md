@@ -24,10 +24,11 @@ Then pass the buzzer your output files:
 ```python
 python3 lr_buzzer.py --buzztrain train.pred --buzzdev dev.pred
 ```
+# Baseline - 2/4 Repo Status
 
 ## Baseline Metrics
 
-With no features added, this was the initial baseline:
+With no features added, this was the initial baseline with the small dataset:
 
 ```
 accuracy            :  53.879
@@ -92,3 +93,27 @@ expected_win_prob   :   0.325
 buzz_percent        : 100.000
 mean_buzz_position  :   0.306
 ```
+
+# Baseline - 2/7 Repo Status
+
+```
+accuracy            :   6.306
+expected_win_prob   :   0.056
+buzz_percent        :  91.119
+mean_buzz_position  :   0.036
+```
+
+__This now incorporates the qanta large datasets, so everything is lower to start.__
+
+## Features Added
+
+List of potential features:
+
+* question_text
+* score
+* log2(run_length) - smaller number is better!
+* category average
+* disambiguation in the question
+* guess aggregation average
+
+### 

@@ -11,6 +11,9 @@ Along with the guesser, we have a **Buzzer**, which buzzes (gives off a binary s
 
 In practice, after each new word is consumed, the QB system tries to make new *K* guesses using tfidf guesser over the already consumed prefix, and the Buzzer will go off if the confidence crosses the threshold, in this case 0.5. For simplicity, the guess with the highest score will be considered as the final prediction of the system.
 
+Here's a discussion of how a buzzer and guesser together can make a QA system:
+https://www.youtube.com/watch?v=XnDUmHrj1TM
+
 What's the task?
 -
 
@@ -19,6 +22,9 @@ You will build on the *tf-idf guesser* by extracting useful information from its
 NOTE: Because the goal of this assignment is feature engineering, not classification algorithms, you may not change the underlying algorithm. You are only required to make changes in the `feateng` directory. Particularly, you must reimplement `prepare_train_inputs` and `prepare_eval_input` to achieve stronger results than baseline. You can change the outputs of tf-idf (e.g., to create a new feature) in `make_guess_dicts_from_question` function in `feateng/feat_utils.py`, but you may not swap out tf-idf for BM25.  Likewise, you cannot add hidden layers to the your logistic regression buzzer.
 
 This assignment is structured in a way that approximates how classification works in the real world: features are typically underspecified (or not specified at all). You, the data digger, have to articulate the features you need. You then compete against others to provide useful predictions.
+
+Here is an example of going through the feature engineering process (looking at the data, generating figures, etc.):
+https://www.youtube.com/watch?v=IzKFgigocAg
 
 Data
 ----
@@ -87,6 +93,7 @@ for question_prefix in runs:
             }
             yield guess
 ```
+Every time we add a new item to the json in `make_guess_dicts_from_question`, we must run `tfidf_guesser.py` to generate the required files that becomes the inputs to our `lr_buzzer.py`.
 
 We create this utility function to create the feature value from a string.
 ```diff
@@ -112,6 +119,8 @@ During evaluation, we will use the question_text of the sub_example with maximum
     return input
 ```
 That's it! Now we train the buzzer on our buzztrain data and evaluate end to end by running `run_e2e_evals.py` script.
+
+Alternatively, you can just make the code changes and run `train_eval.sh` file with right modifications within to get the final scores on dev set.
 
 How is the performance of a QuizBowl system measured?
 ---
