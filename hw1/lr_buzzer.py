@@ -37,7 +37,7 @@ def create_eval_dataset(vocab:List[str], filename:str):
 class LogRegBuzzer:
     """A simple Logistic Regression based binary Buzzer."""
     def __init__(self):
-        self.model = LogisticRegression(penalty='none', fit_intercept=False)
+        self.model = LogisticRegression(penalty='none', fit_intercept=False, max_iter=10000)
     
     def train(self, inputs, labels):
         self.model.fit(inputs, labels)
