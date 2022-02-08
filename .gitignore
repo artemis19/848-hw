@@ -7,4 +7,5 @@ train.pred
 dev.pred
 env/
 outputs/
-data/qanta.dev.json
+data/qanta*
+*.zip

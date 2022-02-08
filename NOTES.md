@@ -109,11 +109,67 @@ __This now incorporates the qanta large datasets, so everything is lower to star
 
 List of potential features:
 
-* question_text
+* run_length
 * score
-* log2(run_length) - smaller number is better!
+* log2(question_text)
 * category average
 * disambiguation in the question
 * guess aggregation average
 
-### 
+### `run_length`
+
+Including `scores` and `run_length`:
+
+```
+accuracy            :   7.815
+expected_win_prob   :   0.051
+buzz_percent        : 100.000
+mean_buzz_position  :   0.054
+```
+
+More data from the question should give you a higher chance of getting the question correct, so choosing a guess with the highest "run length," or position in the question should give us a better accuracy in choosing a correct guess.
+
+### Question Disambiguation
+
+Including `scores`, `run_length`, and `disambiguation`:
+
+```
+accuracy            :   8.171
+expected_win_prob   :   0.053
+buzz_percent        : 100.000
+mean_buzz_position  :   0.062
+```
+
+For a question that has a disambiguation in it, extract the word up until the last letter and then count up how many times it appears in the question text.
+
+Extract up until the last letter because a word such as "philosophy" without the "y" could match to similar words like "philosopher" or "philosophical."
+
+### Category
+
+Including `scores`, `run_length`, `disambiguation`, and `category`:
+
+```
+accuracy            :   8.171
+expected_win_prob   :   0.054
+buzz_percent        : 100.000
+mean_buzz_position  :   0.063
+```
+
+If the category text is mentioned in the question, it increases a count metric increasing the chances that that is the correct guess.
+
+### Sub-category
+
+```python
+python tfidf_guesser.py --guesstrain ../data/qanta.train.json --guessdev ../data/qanta.dev.json --buzztrain_predictions train.pred --buzzdev_predictions dev.pred
+```
+
+Including `scores`, `run_length`, `disambiguation`, `category`, and `sub_category` trained on the larger qanta datasets:
+
+```
+accuracy            :  11.723
+expected_win_prob   :   0.076
+buzz_percent        : 100.000
+mean_buzz_position  :   0.202
+```
+
+If the subcategory "root of the word" text is mentioned in the question, it increases a count metric increasing the chances that that is the correct guess.
