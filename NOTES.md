@@ -3,6 +3,26 @@
 > Group 10, Team SKY | Friday, February 11, 2022
 -------------------------------------------------
 
+## Best Performances
+
+Turning on Kaitlyn's features & year vector using the `feat_utils_backup.py`:
+
+```
+accuracy            :  14.831
+expected_win_prob   :   0.147
+buzz_percent        :  40.853
+mean_buzz_position  :   1.200
+```
+
+Using my features alone in the training stage as well using `feat_utils.py`:
+
+```
+accuracy            :  25.488
+expected_win_prob   :   0.163
+buzz_percent        :  99.911
+mean_buzz_position  :   0.433
+```
+
 ## Quickstart
 
 I did everything in a virtual environment. I think you'll need at least `python3.8` for everything to work correctly. I did not upload my two JSON output files from modifying the couple of features, so you'll need to run the `tfidf_guesser` to get those initial ones and see. I have a `.gitignore` for large or python compiled files but feel free to add anything else that comes up.
@@ -173,3 +193,117 @@ mean_buzz_position  :   0.202
 ```
 
 If the subcategory "root of the word" text is mentioned in the question, it increases a count metric increasing the chances that that is the correct guess.
+
+
+## Testing Features - Small Dataset
+
+Features that give the logistic regression convergence warning:
+
+* tournament
+* page
+
+### Training on small data without vectorized features:
+
+```
+accuracy            :   7.815
+expected_win_prob   :   0.051
+buzz_percent        : 100.000
+mean_buzz_position  :   0.054
+```
+
+Adding in `difficulty`:
+
+```
+accuracy            :   7.371
+expected_win_prob   :   0.055
+buzz_percent        : 100.000
+mean_buzz_position  :   0.055
+```
+
+Adding in `year`:
+
+```
+accuracy            :  12.256
+expected_win_prob   :   0.098
+buzz_percent        :  65.808
+mean_buzz_position  :   0.421
+```
+
+Added `difficulty` & `year`:
+```
+accuracy            :  11.901
+expected_win_prob   :   0.083
+buzz_percent        :  89.343
+mean_buzz_position  :   0.227
+```
+
+Added `subcategory`, `difficulty` & `year`:
+
+```
+accuracy            :   9.147
+expected_win_prob   :   0.060
+buzz_percent        : 100.000
+mean_buzz_position  :   0.091
+```
+
+Added `category`, `subcategory`, `difficulty` & `year`:
+
+```
+accuracy            :   8.437
+expected_win_prob   :   0.057
+buzz_percent        :  98.401
+mean_buzz_position  :   0.080
+```
+
+### Testing w/Just Vectorized Features
+
+Added `diffculty` & `year`:
+
+```
+accuracy            :  11.901
+expected_win_prob   :   0.083
+buzz_percent        :  88.632
+mean_buzz_position  :   0.229
+```
+
+Adding in `disambiguation`, `category_points`, or `sub_category` did not affect the above metrics.
+
+Using only the `year` vectorized feature seemd to improve metrics the best and adding in the other features also improved expected win probability.
+
+`year` with `disambiguation` and `category_points`:
+
+```
+accuracy            :  12.167
+expected_win_prob   :   0.097
+buzz_percent        :  65.808
+mean_buzz_position  :   0.417
+```
+
+`year` with `category_points` provided the following:
+
+```
+accuracy            :  12.256
+expected_win_prob   :   0.098
+buzz_percent        :  65.897
+mean_buzz_position  :   0.420
+```
+
+`year` with `subcategory_points` provided the following:
+
+```
+accuracy            :  12.256
+expected_win_prob   :   0.098
+buzz_percent        :  66.075
+mean_buzz_position  :   0.419
+```
+
+## Best Performance
+
+Turning on Kaitlyn's features & year vector:
+
+```
+accuracy            :  14.831
+expected_win_prob   :   0.147
+buzz_percent        :  40.853
+mean_buzz_position  :   1.200
+```
