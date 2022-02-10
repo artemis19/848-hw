@@ -23,6 +23,24 @@ buzz_percent        :  99.911
 mean_buzz_position  :   0.433
 ```
 
+Using OG features and guess occurrence feature:
+
+```
+accuracy            :  25.755
+expected_win_prob   :   0.178
+buzz_percent        :  97.691
+mean_buzz_position  :   0.495
+```
+
+W/o question disambiguation and guess occurrence feature:
+
+```
+accuracy            :  25.755
+expected_win_prob   :   0.177
+buzz_percent        :  97.780
+mean_buzz_position  :   0.492
+```
+
 ## Quickstart
 
 I did everything in a virtual environment. I think you'll need at least `python3.8` for everything to work correctly. I did not upload my two JSON output files from modifying the couple of features, so you'll need to run the `tfidf_guesser` to get those initial ones and see. I have a `.gitignore` for large or python compiled files but feel free to add anything else that comes up.

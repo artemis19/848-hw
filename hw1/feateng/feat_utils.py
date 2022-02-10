@@ -54,7 +54,7 @@ def return_train_features(example):
         1.0,
         example["score"],
         example["run_length"],
-        # disambiguation_points,
+        disambiguation_points,
         category_points,
         subcategory_points,
         1  # a single guess occurence
