@@ -15,9 +15,6 @@ def n_tokens_feature(sent: str):
     return math.log2(len(sent.split()))
 
 
-trained_guesses = []
-
-
 def return_train_features(example):
     # This collects features from ALL guesses
     # from ALL the question pool (82395)
@@ -54,10 +51,9 @@ def return_train_features(example):
         1.0,
         example["score"],
         example["run_length"],
-        # disambiguation_points,
+        disambiguation_points,
         category_points,
         subcategory_points,
-        1  # a single guess occurence
         # 1 - example["run_length"], # inverse because higher means greater chance
         # math.log2(all_guesses.count(example["guess"])),
     ]
@@ -125,34 +121,41 @@ def prepare_eval_input(
     """
 
     all_guesses = [e["guess"] for e in sub_examples]
+    # print("SUB EXAMPLES")
+    # # print(len(sub_examples))
+    # print(all_guesses)
+    # print("=================================")
 
     scores = [e["score"] for e in sub_examples]
     score_idx = np.argmax(scores)
+    run_length = [e["run_length"] for e in sub_examples]
+    rl_idx = np.argmax(run_length)
+    tokens_length = [n_tokens_feature(e["question_text"]) for e in sub_examples]
+    tokens_idx = np.argmax(tokens_length)
+
+    # disam = []
+    # for e in sub_examples:
+    #     disambiguation_points = 0
+    #     if "(" in e["guess"] and ")" in e["guess"]:
+    #         disambiguation = e["guess"].split('(')[1].split(')')[0].replace("_", " ").lower()
+    #         for word in disambiguation.split():
+    #             disambiguation_points += e["question_text"].lower().count(word[:-1])
+    #     disam.append(disambiguation_points)
+    # disam_idx = np.argmax(disam)
+
+    # input = np.array([
+    #     1.0,
+    #     scores[score_idx],
+    #     run_length[rl_idx], # highest runtime points
+    #     1.0, # disambiguation points constant
+    #     1.0, # category points
+    #     1.0, # subcategory points
+    # ], dtype=np.float32)
 
     # return input
-    # print("at time of prepare_eval_input, number of occurrences of each guess is:")
-    count_of_each_guess = [sub_examples.count(e) for e in sub_examples]
-    # print(count_of_each_guess)
-    max_value_number_for_each_guess = max(count_of_each_guess)
-    """
-    If we see a guess more than once, it has a higher chance of being the correct guess.
-    We will take the features from THAT guess.
-    If there are no guesses that occur more than once, we will take the features from
-    the guess that has the highest score.
-    """
-    # if max_value_number_for_each_guess != 1:
-    #     print("using max count of guesses")
-    #     index_of_max_count = count_of_each_guess.index(max_value_number_for_each_guess)
-    #     e = list(sub_examples)[index_of_max_count]
-    # else:
-    # print("using highest score")
-    e = list(sub_examples)[score_idx]
-    # print("at time of prepare_eval_input, number of occurrences of each guess is:")
 
-    return np.array(
-        return_train_features(e)[:-1] + [max_value_number_for_each_guess],
-        dtype=np.float32,
-    )
+    e = list(sub_examples)[score_idx]
+    return np.array(return_train_features(e), dtype=np.float32)
 
 
 def make_guess_dicts_from_question(
